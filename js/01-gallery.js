@@ -24,8 +24,6 @@ function onClickOpenImg(event) {
 		<img width="1280" src="${linkSrc}" alt="${altSrc}" >
 	`);
 
-  instance.show();
-
   function escKeyDown(event) {
     if (event.code === "Escape") {
       instance.close();
@@ -43,4 +41,6 @@ function onClickOpenImg(event) {
   window.addEventListener("keydown", escKeyDown);
 
   instance.element().addEventListener("click", removeListeners);
+
+  instance.show();
 }
