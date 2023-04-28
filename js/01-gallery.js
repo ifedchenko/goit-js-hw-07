@@ -29,7 +29,8 @@ function onClickOpenImg(event) {
   };
 
   const markup = `
-<img width="1280" src="${linkSrc}" alt="${altSrc}" >`;
+<img width="1280" src="${linkSrc}" alt="${altSrc}" >
+`;
 
   const instance = basicLightbox.create(markup, {
     onShow: (instance) => window.addEventListener("keydown", escKeyDown),
