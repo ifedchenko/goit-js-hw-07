@@ -9,38 +9,33 @@ const galleryItem = galleryItems.map(
   }
 );
 galleryList.insertAdjacentHTML("beforeend", galleryItem.join(""));
-
 galleryList.addEventListener("click", onClickOpenImg);
-
 function onClickOpenImg(event) {
   event.preventDefault();
 
-  // console.log(linkSrc);
-  //   console.log(event.target.getAttribute("alt"));
-  const linkSrc = event.target.parentElement.getAttribute("href");
-  const altSrc = event.target.getAttribute("alt");
+  if (event.target.nodeName !== "IMG"){
+    return
+  }
 
-  const instance = basicLightbox.create(`
-		<img width="1280" src="${linkSrc}" alt="${altSrc}" >
-	`);
+  // const linkSrc = event.target.parentElement.getAttribute("href");
+  const linkSrc = event.target.dataset.source;
+  // const altSrc = event.target.getAttribute("alt");
+  const altSrc = event.target.alt;
 
-  instance.show();
-
-  function escKeyDown(event) {
+  const escKeyDown = function (event) {
     if (event.code === "Escape") {
       instance.close();
-      window.removeEventListener("keydown", escKeyDown);
     }
-  }
+  };
 
-  function removeListeners() {
-    instance.element().removeEventListener("click", removeListeners);
-    window.removeEventListener("keydown", escKeyDown);
-  }
-  //   console.log(instance);
-  //   console.log(instance.element());
+  const markup = `
+<img width="1280" src="${linkSrc}" alt="${altSrc}" >`;
 
-  window.addEventListener("keydown", escKeyDown);
+  const instance = basicLightbox.create(markup, {
+    onShow: (instance) => window.addEventListener("keydown", escKeyDown),
+    onClose: (instance) => window.removeEventListener("keydown", escKeyDown)
+  });
+  instance.show();
 
-  instance.element().addEventListener("click", removeListeners);
 }
+
